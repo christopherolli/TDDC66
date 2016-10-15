@@ -11,6 +11,18 @@ def place_piece(posX, posY, key):
     for figure in figures:
         if figure[0] == posX and figure[1] == posY:
             return False
-    figures[key] = [posX, posY] 
+    figures[str(key)] = [posX, posY] 
         
+def is_free(posX, posY):
+    for figure in figures:
+        print(figure[0] + " " + figure[1])
         
+        if figure[0] == posX and figure[1] == posY:
+            return False
+    return True
+        
+def get_piece(posX, posY):
+    for key, figure in figures.items():
+        if figure[0] == posX and figure[1] == posY:
+            return key
+    return False
