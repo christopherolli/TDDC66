@@ -1,3 +1,4 @@
+import math
 figures = {}
 sizeX = 100000
 sizeY = 100000
@@ -55,14 +56,17 @@ def count(direction, pos, key):
     return counter
 
 def nearest_piece(posX, posY):
-    dist
+    dist = None
+    closest = {}
     for playerKey, player in figures.items():
         for index, figure in enumerate(player):
             tempDist = distance(posX, posY, figure[0], figure[1]) 
-            if empty(dist) or tempDist < dist:
+            if dist == None or tempDist < dist:
                 dist = tempDist
-    return dist
+                closest = figure
+                
+    return closest
 
-def distance(posX1, posY1, PosX2, PosY2):
-   return (((posX1-posX2)+(posY1-posY2))**2)
+def distance(posX1, posY1, posX2, posY2):
+   return math.sqrt(((posX1-posX2)+(posY1-posY2))**2)
     
