@@ -3,23 +3,66 @@ sizeX = 100000
 sizeY = 100000
 
 def place_piece(posX, posY, key):
-    if key in figures:
-        return False
+    if not key in figures:
+        figures[key] = []
     if posX > sizeX or posY > sizeY or posX < 0 or posY < 0:
         return False
-    for figure in figures:
-        if figure[0] == posX and figure[1] == posY:
-            return False
-    figures[str(key)] = [posX, posY]
+    if not isfree(posX, posY):
+        return False
+    figures[str(key)].append([posX, posY])
 
-def is_free(posX, posY):
-    for key, figure in figures.items():
-        if figure[0] == posX and figure[1] == posY:
+def isfree(posX, posY):
+    for playerKey, player in figures.items():
+        if [posX, posY] in player:
             return False
     return True
 
 def get_piece(posX, posY):
-    for key, figure in figures.items():
-        if figure[0] == posX and figure[1] == posY:
-            return key
+    for playerKey, player in figures.items():
+        if [posX, posY] in player:
+            return playerKey
     return False
+    
+def remove_piece(posX, posY):
+    for playerKey, player in figures.items():
+        for index, figure in enumerate(player):
+            if figure[0] == posX and figure[1] == posY:
+                del figures[playerKey][index]
+                return True
+    return False
+
+def move_piece(posX, posY, newPosX, newPosY):
+    for playerKey, player in figures.items():
+        for index, figure in enumerate(player):
+            if figure[0] == posX and figure[1] == posY:
+                del figures[playerKey][index]
+                place_piece(newPosX, newPosY, playerKey)
+                return True 
+    return False
+
+def count(direction, pos, key):
+    counter = 0
+    if direction == "column":
+        for key, figure in enumerate(figures[key]):
+            if figure[0] == pos:
+                counter += 1
+                
+    elif direction == "row":
+        for key, figure in enumerate(figures[key]):
+            if figure[1] == pos:
+                counter += 1
+                
+    return counter
+
+def nearest_piece(posX, posY):
+    dist
+    for playerKey, player in figures.items():
+        for index, figure in enumerate(player):
+            tempDist = distance(posX, posY, figure[0], figure[1]) 
+            if empty(dist) or tempDist < dist:
+                dist = tempDist
+    return dist
+
+def distance(posX1, posY1, PosX2, PosY2):
+   return (((posX1-posX2)+(posY1-posY2))**2)
+    
